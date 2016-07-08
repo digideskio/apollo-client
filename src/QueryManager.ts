@@ -63,6 +63,10 @@ import {
 } from './queryPrinting';
 
 import {
+  stripApolloDirectivesFromRequest,
+} from './queries/directives';
+
+import {
   QueryFetchRequest,
   QueryBatcher,
 } from './batching';
@@ -238,7 +242,7 @@ export class QueryManager {
       resultBehaviors: [...resultBehaviors, ...updateQueriesResultBehaviors],
     });
 
-    return this.networkInterface.query(request)
+    return this.networkInterface.query(stripApolloDirectivesFromRequest(request))
       .then((result) => {
         this.store.dispatch({
           type: 'APOLLO_MUTATION_RESULT',
